@@ -1,0 +1,22 @@
+const soilImageInput = document.getElementById('soil-image');
+const analyzeButton = document.getElementById('analyze-button');
+const soilFertilityText = document.getElementById('soil-fertility-text');
+
+analyzeButton.addEventListener('click', async () => {
+    // Get the selected soil image
+    const soilImage = soilImageInput.files[0];
+
+    // Send the image to the backend for analysis
+    const formData = new FormData();
+    formData.append('soil_image', soilImage);
+
+    const response = await fetch('/analyze_soil', {
+        method: 'POST',
+        body: formData
+    });
+
+    const result = await response.json();
+
+    // Display the soil fertility result
+    soilFertilityText.textContent = `Soil Fertility: ${result.fertility_level}`;
+});
